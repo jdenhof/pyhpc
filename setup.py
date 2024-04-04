@@ -8,6 +8,7 @@ setup(
     author="Jagger Denhof",
     packages=find_packages(),
     install_requires=[
+        'paramiko'
     ],
     # extras_require={
     #     "test": [
