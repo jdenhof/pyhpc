@@ -1,6 +1,5 @@
-from sshhpc import SSHHPC
 import threading
-from app import Application
+from pyhpc.Application import Application
 
 
 # def main():

@@ -1,14 +1,14 @@
 import tkinter as tk
-from pages import *
-from EventDispatcher import EventDispatcher
-
+from pyhpc.pages import *
+from pyhpc.utils.EventDispatcher import EventDispatcher
+from .AppState import AppState
 
 class Application(tk.Tk):
     def __init__(self):
         super().__init__()
         self.geometry("400x300")
         self.title("MPA with Frames")
-    
+        self.app_state = AppState()
         self.dispatcher = EventDispatcher()
         
         self.dispatcher.subscribe("login_success", lambda username: self.show_frame(MainPage))

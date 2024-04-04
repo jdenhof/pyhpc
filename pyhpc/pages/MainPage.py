@@ -1,17 +1,19 @@
 import tkinter as tk
 
-
 class MainPage(tk.Frame):
     def __init__(self, app):
         super().__init__(app)
         self.dispatcher = app.dispatcher
-        self.unsubscribe_login_success = self.dispatcher.subscribe("login_success", self.on_login_success)
-        self.unsubscribe_logout = self.dispatcher.subscribe("logout", self.on_logout)
-
+        self.app_state = app.app_state
+        self.subscribe()
         
         tk.Label(self, text="Main Page", font=("Arial", 20)).pack()
         tk.Button(self, text="Hamburger Menu", command=self.open_menu).pack(side="top", anchor="nw")
         tk.Label(self, text="Settings/Profile Placeholder").pack()
+        
+    def subscribe(self):
+        self.unsubscribe_login_success = self.dispatcher.subscribe("login_success", self.on_login_success)
+        self.unsubscribe_logout = self.dispatcher.subscribe("logout", self.on_logout)
 
     def open_menu(self):
         menu = tk.Menu(self, tearoff=0)
@@ -23,6 +25,8 @@ class MainPage(tk.Frame):
         
     def on_login_success(self, username):
         print("Logged in user:", username)
+        stdin, stdout, stderr  = self.app_state.session.exec_command('ls')
+        tk.Label(self, text= stdout.read().decode()).pack()
 
     def on_logout(self):
         self.dispatcher.publish("show_login")
