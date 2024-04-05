@@ -12,7 +12,7 @@ class HPCController:
         
     def exec_squeue(self, user: str = None):
         """Execute a command to get job statistics."""
-        cmd = 'ls'
+        cmd = 'squeue'
         if user:
             cmd += f' -u {user}'
         try:

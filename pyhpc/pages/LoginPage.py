@@ -12,6 +12,7 @@ class LoginPage(tk.Frame):
         super().__init__(app)
         self.dispatcher = app.dispatcher
         self.app_state = app.app_state
+        self.controller = app.controller
         
         self.host_name = tk.StringVar(value=secrets.HOST)
         self.port = tk.StringVar(value=secrets.PORT)
@@ -33,7 +34,7 @@ class LoginPage(tk.Frame):
 
     def check_login(self):
         try:
-            self.app_state.session = SSHSession(
+            self.controller.session = SSHSession(
                 self.host_name.get(),
                 self.port.get(),
                 self.username.get(),
