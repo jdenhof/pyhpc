@@ -1,10 +1,15 @@
 import tkinter as tk
+from typing import TYPE_CHECKING
 
+if TYPE_CHECKING:
+    from main import Application
+    
 class MainPage(tk.Frame):
-    def __init__(self, app):
+    def __init__(self, app: "Application"):
         super().__init__(app)
         self.dispatcher = app.dispatcher
         self.app_state = app.app_state
+        self.controller = app.controller
         self.subscribe()
         
         tk.Label(self, text="Main Page", font=("Arial", 20)).pack()
@@ -25,8 +30,11 @@ class MainPage(tk.Frame):
         
     def on_login_success(self, username):
         print("Logged in user:", username)
-        stdin, stdout, stderr  = self.app_state.session.exec_command('ls')
-        tk.Label(self, text= stdout.read().decode()).pack()
+        try:
+            result = self.controller.exec_squeue()
+        except Exception as e:
+            print(e)
+        tk.Label(self, text=result).pack()
 
     def on_logout(self):
         self.dispatcher.publish("show_login")
